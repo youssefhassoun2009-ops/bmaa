@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bright Minds Academy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: radial-gradient(circle at center, #1a002e, #000000);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 10px 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .title-row h1 {
+      font-size: 2.2rem;
+      margin: 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px #ffffff55;
+    }
+
+    .title-row img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff88;
+    }
+
+    .header p {
+      margin-top: 8px;
+      font-size: 1rem;
+      font-style: italic;
+      color: #cccccc;
+    }
+
+    .marquee-inside {
+      width: 100%;
+      margin-top: 10px;
+      background: transparent;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 8px 0;
+    }
+
+    .marquee-inside marquee {
+      font-family: 'Segoe UI', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .courses {
+      position: relative;
+      top: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      z-index: 5;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .courses a img {
+      width: 220px;
+      height: 140px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ffffff33;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .courses a img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ffffff66;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px 0;
+      z-index: 10;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      background-color: #6f00ff;
+      transform: translateY(-5px);
+      box-shadow: 0 0 10px #6f00ff88;
+    }
+
+    @media (max-width: 600px) {
+      .title-row h1 {
+        font-size: 1.5rem;
+      }
+
+      .title-row img {
+        width: 45px;
+        height: 45px;
+      }
+
+      .header p {
+        font-size: 0.9rem;
+      }
+
+      .marquee-inside {
+        font-size: 0.9rem;
+      }
+
+      .courses a img {
+        width: 160px;
+        height: 100px;
+      }
+
+      footer a {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="galaxyCanvas"></canvas>
+
+  <div class="header">
+    <div class="title-row">
+      <h1>Bright Minds Academy</h1>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Logo" />
+    </div>
+    <p>be humble, be creative, be ambitious</p>
+    <div class="marquee-inside">
+      <marquee behavior="scroll" direction="left" scrollamount="5">
+        Welcome to Bright Minds Academy
+      </marquee>
+    </div>
+  </div>
+
+  <div class="courses">
+    <a href="course1.html">
+      <img src="../Copilot_20250726_153411.png" alt="Course 1" />
+    </a>
+    <a href="course2.html">
+      <img src="../Copilot_20250726_153613.png" alt="Course 2" />
+    </a>
+  </div>
+
+  <footer>
+    <a href="courses.html">Courses</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById("galaxyCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    let stars = [];
+    for (let i = 0; i < 300; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.3 + 0.1
+      });
+    }
+
+    let planets = [
+      { radius: 20, orbit: 100, angle: 0, speed: 0.01, color: "#6f00ff" },
+      { radius: 30, orbit: 200, angle: Math.PI / 2, speed: 0.006, color: "#aa00ff" },
+      { radius: 15, orbit: 150, angle: Math.PI, speed: 0.008, color: "#ff00aa" },
+      { radius: 25, orbit: 250, angle: Math.PI / 3, speed: 0.005, color: "#00ffff" }
+    ];
+
+    function drawBackground() {
+      ctx.fillStyle = "rgba(26,0,46,0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawStars() {
+      ctx.fillStyle = "#ffffff";
+      stars.forEach((star) => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function drawPlanets() {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      planets.forEach((planet) => {
+        planet.angle += planet.speed;
+        const x = centerX + Math.cos(planet.angle) * planet.orbit;
+        const y = centerY + Math.sin(planet.angle) * planet.orbit;
+
+        ctx.beginPath();
+        ctx.arc(x, y, planet.radius, 0, Math.PI * 2);
+        ctx.fillStyle = planet.color;
+        ctx.shadowColor = planet.color;
+        ctx.shadowBlur = 15;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    function animate() {
+      drawBackground();
+      drawStars();
+      drawPlanets();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
